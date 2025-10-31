@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {IoMdClose} from 'react-icons/io'
 import { CgMenuRight } from 'react-icons/cg'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import  {motion} from 'framer-motion'
 
 const menuVariants = {
@@ -17,8 +17,13 @@ const menuVariants = {
 }
 
 const MobileNav = () => {
+  const [openMenu, setOpenMenu] = useState(false)
+  const location = useLocation()
 
-  const [opeMenu, setOpenMenu] = useState(false)
+  // Close menu when route changes
+  useEffect(() => {
+    setOpenMenu(false)
+  }, [location.pathname])
 
   return (
     <nav className='text-primary xl:hidden'>
@@ -28,7 +33,7 @@ const MobileNav = () => {
       <motion.div 
         variants={menuVariants} 
         initial='hidden'
-        animate={opeMenu ? 'show':''}
+        animate={openMenu ? 'show':''}
         className='bg-white shadow-2xl w-full absolute top-0 right-0 max-w-xs h-screen z-30'
         >
           <div onClick={()=> setOpenMenu(false)}className='text-4xl absolute z-30 left-4 top-14 text-primary cursor-pointer'> 
@@ -36,16 +41,16 @@ const MobileNav = () => {
           </div>
           <ul className='h-full flex flex-col justify-center items-center gap-y-8 text-primary font-primary font-bold text-3xl'>
             <li>
-              <Link to='/'>Home</Link>
+              <Link to='/' onClick={() => setOpenMenu(false)}>Home</Link>
             </li>
             <li>
-              <Link to='/about'>About</Link>
+              <Link to='/about' onClick={() => setOpenMenu(false)}>About</Link>
             </li>
             <li>
-              <Link to='/portfolio'>Portfolio</Link>
+              <Link to='/portfolio' onClick={() => setOpenMenu(false)}>Portfolio</Link>
             </li>
             <li>
-              <Link to='/contact'>Contact</Link>
+              <Link to='/contact' onClick={() => setOpenMenu(false)}>Contact</Link>
             </li>
           </ul>
       </motion.div>
